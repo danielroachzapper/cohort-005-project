@@ -2,6 +2,10 @@ import { Outlet } from "react-router";
 import type { Route } from "./+types/layout.app";
 import { Sidebar } from "~/components/sidebar";
 import { DevUI } from "~/components/dev-ui";
+import {
+  NotificationFeedPrototypeProvider,
+  PrototypeSwitcher,
+} from "~/components/notification-feed.prototype";
 import { Toaster } from "sonner";
 import { getCurrentUserId, getDevCountry } from "~/lib/session";
 import { getCountryTierInfo, COUNTRIES } from "~/lib/ppp";
@@ -228,6 +232,10 @@ export default function AppLayout({ loaderData }: Route.ComponentProps) {
   } = loaderData;
 
   return (
+    <NotificationFeedPrototypeProvider
+      role={currentUser?.role ?? null}
+      isTeamAdmin={userIsTeamAdmin}
+    >
     <div className="flex h-screen overflow-hidden">
       <Sidebar
         currentUser={currentUser}
@@ -245,6 +253,8 @@ export default function AppLayout({ loaderData }: Route.ComponentProps) {
         countries={countries}
       />
       <Toaster position="bottom-right" richColors closeButton />
+      <PrototypeSwitcher />
     </div>
+    </NotificationFeedPrototypeProvider>
   );
 }
